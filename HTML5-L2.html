@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+	#div1 {
+    width: 350px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+         #svgelem {
+            position: relative;
+            left: 20%;
+            -webkit-transform: translateX(-20%);
+            -ms-transform: translateX(-20%);
+            transform: translateX(-20%);
+         }
+         
+		 #svgelem2 {
+            position: relative;
+            left: 20%;
+            -webkit-transform: translateX(-20%);
+            -ms-transform: translateX(-20%);
+            transform: translateX(-20%);
+         }
+      </style>
+	    <script type = "text/javascript">
+         
+         function allowDrop(ev) {
+    ev.preventDefault();
+}
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+   function showLocation(position) {
+              if( localStorage.location ) {
+                  var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+           localStorage.location="Latitude : " + latitude + " Longitude: " + longitude;
+            
+            
+         } 
+            else {
+            localStorage.location="Latitude : " + latitude + " Longitude: " + longitude;
+            
+         }
+		 document.getElementById("loc").innerHTML=localStorage.location ;
+      
+            }
+         function errorHandler(err) {
+            if(err.code == 1) {
+               alert("Error: Access is denied!");
+            } else if( err.code == 2) {
+               alert("Error: Position is unavailable!");
+            }
+         }
+			
+         function getLocation() {
+            if(navigator.geolocation) {
+               
+               // timeout at 60000 milliseconds (60 seconds)
+               var options = {timeout:60000};
+               navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+            } else {
+               alert("Sorry, browser does not support geolocation!");
+            }
+         }
+         
+         //document.write("Location :" + localStorage.location );
+          </script>
+      <title>SVG</title>
+      <meta charset = "utf-8" />
+   </head>
+    
+   <body onload="getLocation();">
+      <h2 align = "center">HTML5 L2 Assignment</h2>
+	  <div>
+	 <label> Geo Location:</label><h5 id="loc"></h5>
+	 </div>
+	  <hr>
+		
+      <svg id = "svgelem" height = "200" xmlns = "http://www.w3.org/2000/svg">
+         <circle id = "greencircle" cx = "100" cy = "100" r = "100" fill = "green" />
+      </svg>
+      <svg id = "svgelem2" height = "200" xmlns = "http://www.w3.org/2000/svg" >
+         <circle id = "yellowcircle" cx = "100" cy = "100" r = "100" fill = "yellow" ondrop="drop(event)" ondragover="allowDrop(event)"  />
+      </svg>
+	  
+	 <!--div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div-->
+<br>
+<img id="drag1" src="data:image/png;base64,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" draggable="true" ondragstart="drag(event)" width="100" height="69">
+     
+</body>
+</html>
